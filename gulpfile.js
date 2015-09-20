@@ -1,0 +1,56 @@
+var gulp = require('gulp'),
+    livereload = require('gulp-livereload');
+    browserify = require('browserify');
+    transform = require('vinyl-transform');
+    uglify = require('gulp-uglify');
+var source = require('vinyl-source-stream');
+var buffer = require('vinyl-buffer');
+var sourcemaps = require('gulp-sourcemaps');
+var gutil = require('gulp-util');
+var sass = require('gulp-sass');
+var rename = require("gulp-rename");
+var autoprefixer = require('gulp-autoprefixer');
+
+// gulp.task('default', function() {
+//   gulp.src('public/js/*.js')
+//     // .pipe(less())
+//     // .pipe(gulp.dest('dist/styles'))
+//     .pipe(livereload());
+// });
+
+gulp.task('sass', function () {
+  return gulp.src('./sass/**/*.scss')
+    .pipe(sass().on('error', sass.logError))
+    .pipe(rename("styles.css"))
+    .pipe(autoprefixer({
+            browsers: ['last 2 versions'],
+            cascade: false
+        }))
+    .pipe(gulp.dest('./public/css'))
+    .pipe(livereload());
+});
+
+gulp.task('javascript', function () {
+  // set up the browserify instance on a task basis
+  var b = browserify({
+    entries: 'src/main.js',
+    debug: true
+  });
+
+  return b.bundle()
+    .pipe(source('app.js'))
+    .pipe(buffer())
+    // .pipe(sourcemaps.init({loadMaps: true}))
+    //     // Add transformation tasks to the pipeline here.
+    //     .pipe(uglify())
+    //     .on('error', gutil.log)
+    // .pipe(sourcemaps.write('./'))
+    .pipe(gulp.dest('./public/js/'))
+    .pipe(livereload());
+});
+
+gulp.task('watch', function() {
+  livereload.listen();
+  gulp.watch('./src/**/*', ['javascript']);
+  gulp.watch('./sass/**/*.scss', ['sass']);
+});
