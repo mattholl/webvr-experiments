@@ -1,0 +1,19 @@
+{
+  "name": "webvr_starfield",
+  "version": "0.0.0",
+  "authors": [
+    "Matthew Hollings <matthew.hollings@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "threejs": "*",
+    "webvr-polyfill": "~0.1.0"
+  }
+}
