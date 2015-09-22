@@ -1,7 +1,7 @@
 
 // var ParticleSystem = require('particle-system.js');
 
-var scene = new THREE.Scene();
+
 var renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
 renderer.setPixelRatio(window.devicePixelRatio);
 
@@ -15,26 +15,23 @@ var scene = new THREE.Scene();
 
 var app = {
   setup : function() {
-    renderer.setSize( window.innerWidth, window.innerHeight );
     document.body.appendChild( renderer.domElement );
-
-    var cubeGeom = new THREE.BoxGeometry( 100, 100, 100 );
-    var cubMat = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
-    var cube = new THREE.Mesh( cubeGeom, cubMat );
-    cube.name = 'cube';
-    scene.add( cube );
-
 
     this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.3, 10000);
 
     // Apply VR headset positional data to camera.
     this.controls = new THREE.VRControls(this.camera);
 
+    var cubeGeom = new THREE.BoxGeometry( 100, 100, 100 );
+    var cubMat = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
+    var cube = new THREE.Mesh( cubeGeom, cubMat );
+    cube.name = 'cube';
+    cube.position = -1.0;
+    scene.add( cube );
 
     // // create the particle system
     // var particles = new ParticleSystem({
     //   number : 10,
-
     // });
 
     this.animate();
@@ -50,6 +47,7 @@ var app = {
     requestAnimationFrame( app.animate );
     app.update();
     manager.render( scene, app.camera, timestamp );
+    // renderer.render(scene, app.camera, timestamp);
   }
 };
 
