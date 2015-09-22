@@ -5,6 +5,11 @@
 var renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
 renderer.setPixelRatio(window.devicePixelRatio);
 
+var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.3, 10000);
+
+// Apply VR headset positional data to camera.
+var controls = new THREE.VRControls(camera);
+
 var effect = new THREE.VREffect(renderer);
 effect.setSize(window.innerWidth, window.innerHeight);
 
@@ -13,14 +18,12 @@ var manager = new WebVRManager(renderer, effect, {hideButton: false});
 
 var scene = new THREE.Scene();
 
-var app = {
-  setup : function() {
-    document.body.appendChild( renderer.domElement );
 
-    this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.3, 10000);
 
-    // Apply VR headset positional data to camera.
-    this.controls = new THREE.VRControls(this.camera);
+function setup() {
+  document.body.appendChild( renderer.domElement );
+
+
 
     var cubeGeom = new THREE.BoxGeometry( 100, 100, 100 );
     var cubMat = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
@@ -34,23 +37,42 @@ var app = {
     //   number : 10,
     // });
 
-    this.animate();
-  },
-  update : function() {
+    animate();
+}
+
+function update() {
     // Update VR headset position and apply to camera.
-    app.controls.update();
+    controls.update();
     var cube = scene.getObjectByName( "cube" );
     cube.rotation.x += 0.1;
     cube.rotation.y += 0.1;
-  },
-  animate : function(timestamp) {
-    requestAnimationFrame( app.animate );
-    app.update();
-    manager.render( scene, app.camera, timestamp );
+}
+
+function draw() {
+      // Update VR headset position and apply to camera.
+    controls.update();
+    var cube = scene.getObjectByName( "cube" );
+    cube.rotation.x += 0.1;
+    cube.rotation.y += 0.1;
+}
+
+  // setup : function() {
+
+  // },
+  // update : function() {
+
+  // },
+function animate(timestamp) {
+  requestAnimationFrame( animate );
+  update()
+  manager.render( scene, camera, timestamp );
     // renderer.render(scene, app.camera, timestamp);
-  }
-};
+}
+//   animate : function(timestamp) {
+
+//   }
+// };
 
 document.addEventListener('DOMContentLoaded', function() {
-  app.setup();
+  setup();
 }, false);
