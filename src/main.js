@@ -25,12 +25,23 @@ function setup() {
 
 
 
-    var cubeGeom = new THREE.BoxGeometry( 100, 100, 100 );
-    var cubMat = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
-    var cube = new THREE.Mesh( cubeGeom, cubMat );
-    cube.name = 'cube';
-    cube.position = -1.0;
-    scene.add( cube );
+    // var cubeGeom = new THREE.BoxGeometry( 100, 100, 100 );
+    // var cubMat = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
+    // var cube = new THREE.Mesh( cubeGeom, cubMat );
+    // cube.name = 'cube';
+    // cube.position = -1.0;
+    // scene.add( cube );
+
+  // Create 3D objects.
+  var geometry = new THREE.BoxGeometry(0.5, 0.5, 0.5);
+  var material = new THREE.MeshNormalMaterial();
+  var cube = new THREE.Mesh(geometry, material);
+
+  // Position cube mesh
+  cube.position.z = -1;
+
+  // Add cube mesh to your three.js scene
+  scene.add(cube);
 
     // // create the particle system
     // var particles = new ParticleSystem({
@@ -41,30 +52,19 @@ function setup() {
 }
 
 function update() {
-    // Update VR headset position and apply to camera.
+
+
+    // var cube = scene.getObjectByName( "cube" );
+    // cube.rotation.x += 0.1;
+    // cube.rotation.y += 0.1;
+
     controls.update();
-    var cube = scene.getObjectByName( "cube" );
-    cube.rotation.x += 0.1;
-    cube.rotation.y += 0.1;
 }
 
-function draw() {
-      // Update VR headset position and apply to camera.
-    controls.update();
-    var cube = scene.getObjectByName( "cube" );
-    cube.rotation.x += 0.1;
-    cube.rotation.y += 0.1;
-}
 
-  // setup : function() {
-
-  // },
-  // update : function() {
-
-  // },
 function animate(timestamp) {
   requestAnimationFrame( animate );
-  update()
+  update();
   manager.render( scene, camera, timestamp );
     // renderer.render(scene, app.camera, timestamp);
 }
@@ -75,4 +75,5 @@ function animate(timestamp) {
 
 document.addEventListener('DOMContentLoaded', function() {
   setup();
+  animate();
 }, false);
