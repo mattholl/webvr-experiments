@@ -1,14 +1,5 @@
-var ParticleSystem = function(opts) {
-  this.numParticles = opts.number || 100;
-  this.pointSize = opts.size || 5;
-  this.particles = [];
+var ParticleSystem = function() {
 
-  if(!opts.scene) {
-    console.log('No scene');
-  } else {
-    this.scene = opts.scene;
-    this.createParticles();
-  }
 };
 
 ParticleSystem.prototype.createParticles = function() {
@@ -31,11 +22,30 @@ ParticleSystem.prototype.createParticles = function() {
 
 };
 
+ParticleSystem.prototype.setup = function(opts) {
+  this.numParticles = opts.number || 100;
+  this.pointSize = opts.size || 5;
+  this.particles = [];
+
+  if(!opts.scene) {
+    console.log('No scene');
+  } else {
+    this.scene = opts.scene;
+    this.createParticles();
+  }
+};
+
 ParticleSystem.prototype.update = function() {
   // Move the particles towards the viewer - negative z direction
   // if they are beyond the visible distance then remove from the particles array
   // add particles to replace the ones removed
-  //
+  var points = this.scene.children[0].geometry.vertices;
+  this.scene.children[0].geometry.verticesNeedUpdate = true;
+
+  points.forEach(function(point) {
+    point.z += 1;
+  });
+
 };
 
 module.exports = ParticleSystem;

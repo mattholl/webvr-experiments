@@ -15,27 +15,24 @@ effect.setSize(window.innerWidth, window.innerHeight);
 var manager = new WebVRManager(renderer, effect, {hideButton: false});
 
 var scene = new THREE.Scene();
+var particles = new ParticleSystem();
 
 function setup() {
   document.body.appendChild( renderer.domElement );
 
   // create the particle system
-  var particles = new ParticleSystem({
+  particles.setup({
     scene : scene,
     number : 1000,
     size : 5
   });
 
-
-
   animate();
 }
 
 function update() {
-
-
-
   controls.update();
+  particles.update();
 }
 
 
