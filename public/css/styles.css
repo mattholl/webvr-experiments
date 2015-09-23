@@ -336,8 +336,8 @@ table {
 
 body {
   margin: 0;
-  background: radial-gradient(center, circle cover, #e3e3e3 0%, #FFF 100%);
-  background-color: #e3e3e3; }
+  background: radial-gradient(center, circle cover, #000000 0%, #4D4D4D 100%);
+  background-color: #000000; }
 
 canvas {
   width: 100%;

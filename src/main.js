@@ -1,8 +1,12 @@
-// var ParticleSystem = require('./particle-system.js');
+var ParticleSystem = require('./particle-system.js');
 
-var scene = new THREE.Scene();
 var renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
 renderer.setPixelRatio(window.devicePixelRatio);
+
+var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.3, 10000);
+
+// Apply VR headset positional data to camera.
+var controls = new THREE.VRControls(camera);
 
 var effect = new THREE.VREffect(renderer);
 effect.setSize(window.innerWidth, window.innerHeight);
@@ -11,36 +15,34 @@ effect.setSize(window.innerWidth, window.innerHeight);
 var manager = new WebVRManager(renderer, effect, {hideButton: false});
 
 var scene = new THREE.Scene();
+var particles = new ParticleSystem();
 
-var app = {
-  setup : function() {
-    renderer.setSize( window.innerWidth, window.innerHeight );
-    document.body.appendChild( renderer.domElement );
+function setup() {
+  document.body.appendChild( renderer.domElement );
 
-    this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.3, 10000);
+  // create the particle system
+  particles.setup({
+    scene : scene,
+    number : 1000,
+    size : 5
+  });
 
-    // Apply VR headset positional data to camera.
-    this.controls = new THREE.VRControls(this.camera);
+  animate();
+}
 
-    // // create the particle system
-    // var particles = new ParticleSystem({
-    //   number : 10,
+function update() {
+  controls.update();
+  particles.update();
+}
 
-    // });
 
-    this.animate();
-  },
-  update : function() {
-    // Update VR headset position and apply to camera.
-    controls.update();
-  },
-  animate : function(timestamp) {
-    requestAnimationFrame( app.animate );
-    app.update();
-    manager.render( scene, app.camera, timestamp );
-  }
-};
+function animate(timestamp) {
+  requestAnimationFrame( animate );
+  update();
+  manager.render( scene, camera, timestamp );
+}
 
 document.addEventListener('DOMContentLoaded', function() {
-  app.setup();
+  setup();
+  animate();
 }, false);

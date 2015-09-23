@@ -49,8 +49,19 @@ gulp.task('javascript', function () {
     .pipe(livereload());
 });
 
+gulp.task('copy-files', function() {
+  gulp.src([
+    'bower_components/threejs/build/three.js',
+    'bower_components/threejs/examples/js/controls/VRControls.js',
+    'bower_components/threejs/examples/js/effects/VREffect.js',
+    'bower_components/webvr-polyfill/build/webvr-polyfill.js',
+    'lib/webvr-manager.js',
+    'lib/device-info.js'
+    ]).pipe(gulp.dest('./public/js/lib'));
+});
+
 gulp.task('watch', function() {
   livereload.listen();
-  gulp.watch('./src/**/*', ['javascript']);
+  gulp.watch('./src/**/*', ['javascript', 'copy-files']);
   gulp.watch('./sass/**/*.scss', ['sass']);
 });
