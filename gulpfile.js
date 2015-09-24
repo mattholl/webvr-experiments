@@ -62,6 +62,6 @@ gulp.task('copy-files', function() {
 
 gulp.task('watch', function() {
   livereload.listen();
-  gulp.watch('./src/**/*', ['javascript', 'copy-files']);
+  gulp.watch('./src/*.js', ['javascript', 'copy-files']);
   gulp.watch('./sass/**/*.scss', ['sass']);
 });
