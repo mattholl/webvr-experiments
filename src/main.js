@@ -20,7 +20,7 @@ var particles = new ParticleSystem();
 function setup() {
   document.body.appendChild( renderer.domElement );
 
-  // create the particle system
+  // Set up the particle system
   particles.setup({
     scene : scene,
     number : 10000,
@@ -34,7 +34,6 @@ function update() {
   controls.update();
   particles.update();
 }
-
 
 function animate(timestamp) {
   requestAnimationFrame( animate );
