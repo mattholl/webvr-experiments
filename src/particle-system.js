@@ -47,9 +47,22 @@ ParticleSystem.prototype.update = function() {
     // Remove the point if it's gone too far
     if(points[i].z > this.far) {
       points.splice(i, 1);
+      this.addPoint();
     }
 
   }
+};
+
+ParticleSystem.prototype.addPoint = function() {
+  var points = this.scene.children[0].geometry.vertices;
+  this.scene.children[0].geometry.verticesNeedUpdate = true;
+
+  var vertex = new THREE.Vector3();
+  vertex.x = Math.random() * this.far - this.near;
+  vertex.y = Math.random() * this.far - this.near;
+  vertex.z = Math.random() * this.far - this.near;
+
+  points.push( vertex );
 };
 
 module.exports = ParticleSystem;

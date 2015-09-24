@@ -23,7 +23,7 @@ function setup() {
   // create the particle system
   particles.setup({
     scene : scene,
-    number : 100,
+    number : 10000,
     size : 5
   });
 
