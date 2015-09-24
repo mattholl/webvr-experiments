@@ -30,15 +30,34 @@ gulp.task('sass', function () {
     .pipe(livereload());
 });
 
-gulp.task('javascript', function () {
+gulp.task('javascript-starfield', function () {
   // set up the browserify instance on a task basis
   var b = browserify({
-    entries: 'src/main.js',
+    entries: 'src/starfield/main.js',
     debug: true
   });
 
   return b.bundle()
-    .pipe(source('app.js'))
+    .pipe(source('starfield.js'))
+    .pipe(buffer())
+    // .pipe(sourcemaps.init({loadMaps: true}))
+    //     // Add transformation tasks to the pipeline here.
+    //     .pipe(uglify())
+    //     .on('error', gutil.log)
+    // .pipe(sourcemaps.write('./'))
+    .pipe(gulp.dest('./public/js/'))
+    .pipe(livereload());
+});
+
+gulp.task('javascript-suspended-cuboids', function () {
+  // set up the browserify instance on a task basis
+  var b = browserify({
+    entries: 'src/suspended-cuboids/main.js',
+    debug: true
+  });
+
+  return b.bundle()
+    .pipe(source('suspended-cuboids.js'))
     .pipe(buffer())
     // .pipe(sourcemaps.init({loadMaps: true}))
     //     // Add transformation tasks to the pipeline here.
@@ -62,6 +81,8 @@ gulp.task('copy-files', function() {
 
 gulp.task('watch', function() {
   livereload.listen();
-  gulp.watch('./src/*.js', ['javascript', 'copy-files']);
+
+  gulp.watch('./src/starfield/*.js', ['javascript-starfield', 'copy-files']);
+  gulp.watch('./src/suspended-cuboids/*.js', ['javascript-suspended-cuboids', 'copy-files']);
   gulp.watch('./sass/**/*.scss', ['sass']);
 });
