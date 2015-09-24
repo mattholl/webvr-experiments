@@ -18,9 +18,9 @@ var scene = new THREE.Scene();
 addLights();
 
 createCuboids({
-  'number' : 1,
-  'locationNear' : 0,
-  'locationFar' : 100,
+  'number' : 20,
+  'locationNear' : 10,
+  'locationFar' : 20,
   'sizeMin' : 0.2,
   'sizeMax' : 5
 });
@@ -67,10 +67,14 @@ function createCuboids(opts) {
     var depth = _.random(opts.sizeMin, opts.sizeMax);
 
     // var geometry = new THREE.BoxGeometry( width, height, depth );
-    var geometry = new THREE.BoxGeometry( 0.5, 0.5, 0.5 );
+    var geometry = new THREE.BoxGeometry( width, height, depth );
 
     // var material = new THREE.MeshBasicMaterial( {color: 0x00ff00} );
     // var material = new THREE.MeshNormalMaterial();
+
+    // var colorR = _.random(0, 255), colorG = _.random(0, 255), colorB = _.random(0, 255);
+    // var emissiveR = _.random(0, 255), emissiveG = _.random(0, 255), emissiveB = _.random(0, 255);
+
     var material = new THREE.MeshPhongMaterial({
       color: 0x156289,
       emissive: 0x072534,
@@ -80,20 +84,34 @@ function createCuboids(opts) {
 
     var cube = new THREE.Mesh( geometry, material );
 
-    var positionX = _.random(opts.locationNear, opts.locationFar);
-    var positionY = _.random(opts.locationNear, opts.locationFar);
-    var positionZ = _.random(opts.locationNear, opts.locationFar);
+    // Position the cuboid in a random sphere around the viewer
+    var radius = _.random(opts.locationNear, opts.locationFar);
+    var randomPos = randomSpherePoint(0, 0, 0, radius);
 
-    // cube.position.x = positionX;
-    // cube.position.y = positionY;
-    // cube.position.z = -positionZ;
-
-    cube.position.z = -1;
+    cube.position.x = randomPos[0];
+    cube.position.y = randomPos[1];
+    cube.position.z = randomPos[2];
 
     cube.verticesNeedUpdate = true;
-
     scene.add( cube );
   }
+}
+
+/*
+Returns a random point of a sphere, evenly distributed over the sphere.
+The sphere is centered at (x0,y0,z0) with the passed in radius.
+The returned point is returned as a three element array [x,y,z].
+*/
+// http://stackoverflow.com/a/15048260
+function randomSpherePoint(x0,y0,z0,radius){
+   var u = Math.random();
+   var v = Math.random();
+   var theta = 2 * Math.PI * u;
+   var phi = Math.acos(2 * v - 1);
+   var x = x0 + (radius * Math.sin(phi) * Math.cos(theta));
+   var y = y0 + (radius * Math.sin(phi) * Math.sin(theta));
+   var z = z0 + (radius * Math.cos(phi));
+   return [x,y,z];
 }
 
 document.addEventListener('DOMContentLoaded', function() {
