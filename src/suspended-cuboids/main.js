@@ -76,12 +76,12 @@ function createCuboids(opts) {
     // var material = new THREE.MeshBasicMaterial( {color: 0x00ff00} );
     // var material = new THREE.MeshNormalMaterial();
 
-    // var colorR = _.random(0, 255), colorG = _.random(0, 255), colorB = _.random(0, 255);
-    // var emissiveR = _.random(0, 255), emissiveG = _.random(0, 255), emissiveB = _.random(0, 255);
+    var colorR = _.random(0, 255), colorG = _.random(0, 255), colorB = _.random(0, 255);
+    var emissiveR = _.random(0, 255), emissiveG = _.random(0, 255), emissiveB = _.random(0, 255);
 
     var material = new THREE.MeshPhongMaterial({
-      color: 0x156289,
-      emissive: 0x072534,
+      color: getRandomColor(),
+      emissive: getRandomColor(),
       side: THREE.DoubleSide,
       shading: THREE.FlatShading
     });
@@ -118,3 +118,12 @@ function randomSpherePoint(x0,y0,z0,radius){
    return [x,y,z];
 }
 
+// http://stackoverflow.com/a/1484514
+function getRandomColor() {
+    var letters = '0123456789ABCDEF'.split('');
+    var color = '#';
+    for (var i = 0; i < 6; i++ ) {
+        color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+}
