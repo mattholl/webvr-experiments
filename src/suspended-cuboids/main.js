@@ -36,10 +36,14 @@ function update() {
 }
 
 function animate(timestamp) {
-  requestAnimationFrame( animate );
   update();
+  requestAnimationFrame( animate );
   manager.render( scene, camera, timestamp );
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+  setup();
+}, false);
 
 function addLights() {
     var ambientLight = new THREE.AmbientLight( 0x000000 );
@@ -114,7 +118,3 @@ function randomSpherePoint(x0,y0,z0,radius){
    return [x,y,z];
 }
 
-document.addEventListener('DOMContentLoaded', function() {
-  setup();
-  animate();
-}, false);
