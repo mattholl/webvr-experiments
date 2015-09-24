@@ -18,11 +18,11 @@ var scene = new THREE.Scene();
 addLights();
 
 createCuboids({
-  'number' : 20,
-  'locationNear' : 10,
-  'locationFar' : 20,
+  'number' : 750,
+  'locationNear' : 20,
+  'locationFar' : 400,
   'sizeMin' : 0.2,
-  'sizeMax' : 5
+  'sizeMax' : 15
 });
 
 function setup() {
@@ -69,15 +69,10 @@ function createCuboids(opts) {
     var width = _.random(opts.sizeMin, opts.sizeMax);
     var height = _.random(opts.sizeMin, opts.sizeMax);
     var depth = _.random(opts.sizeMin, opts.sizeMax);
-
-    // var geometry = new THREE.BoxGeometry( width, height, depth );
     var geometry = new THREE.BoxGeometry( width, height, depth );
 
     // var material = new THREE.MeshBasicMaterial( {color: 0x00ff00} );
     // var material = new THREE.MeshNormalMaterial();
-
-    var colorR = _.random(0, 255), colorG = _.random(0, 255), colorB = _.random(0, 255);
-    var emissiveR = _.random(0, 255), emissiveG = _.random(0, 255), emissiveB = _.random(0, 255);
 
     var material = new THREE.MeshPhongMaterial({
       color: getRandomColor(),
